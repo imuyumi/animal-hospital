@@ -14,11 +14,12 @@ class RedirectIfAuthenticated
      * @param  \Closure  $next
      * @param  string|null  $guard
      * @return mixed
+     * ミドルウェアが設定されたルーティングにアクセスされたときに毎回呼ばれる
      */
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect('/home');
+            return redirect('/');
         }
 
         return $next($request);

@@ -12,8 +12,13 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Signup</a></li>
-                    <li><a href="#">Login</a></li>
+                     @if (Auth::check())
+                        <li>{!! link_to_route('users.show','マイページ', ['id' => Auth::id()] )!!}</li>
+                        <li>{!! link_to_route('logout.get','ログアウト') !!}</li>
+                     @else
+                        <li>{!! link_to_route('signup.get','会員登録')!!}</li>
+                        <li>{!! link_to_route('login','ログイン')!!}</li>
+                    @endif
                 </ul>
             </div>
         </div>

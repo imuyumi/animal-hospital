@@ -4,43 +4,59 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Hospital;
-use App\Prefecture_code;
-use App\Animal_type;
+use App\Prefecture_id;
+use App\Animal_id;
 use App\User;
+use App\Review;
 
 class hospitalsController extends Controller
 {
     public function search()
     {
-        $prefectures =Prefecture_code::orderBy('code','asc')->pluck('name', 'code');
+        $prefectures =Prefecture_id::orderBy('id','asc')->pluck('prefecture', 'id');
         $prefectures = $prefectures -> prepend('都道府県', '');
-        $animal_types = Animal_type::orderBy('code','asc')->pluck('type','code');
+        $animals = Animal_id::orderBy('id','asc')->pluck('animal','id');
+       
          return view('welcome',[
             'prefectures' => $prefectures,
-            'animal_types'=>$animal_types
+            'animals'=>$animals
             ]);
     }
     
     public function index()
     {
-        //検索結果の表示
+        // //検索結果の表示
+        // $search_animal_id = Request::get('animal_id');
+        // $search_prefecture_id = Request::get('prefecture_id');
+        
+        // if(!empty($search_animal_id) && !empty( $search_prefecture_id)) 
+        // {
+        // $hospitals=DB::table('hospitals')->where('prefecture_id','$search_prefecture_id');
+        // $hospitals=DB::table('hospitals')->where('animal_id','$search_animal_id');
+        // }
+        
+        // return view('hospitals.index', [
+        //     'hospitals'=>$hospitals
+        //     ]);
+        
+        
         $hospitals= Hospital::all();
         return view('hospitals.index',[
-            'hospitals'=>$hospitals
-            ]);
+        'hospitals'=>$hospitals
+        ]);
     }
     
     public function create(){
         $hospital=new Hospital;
-        $prefectures =Prefecture_code::orderBy('code','asc')->pluck('name', 'code');
+        $prefectures =Prefecture_id::orderBy('id','asc')->pluck('prefecture', 'id');
         $prefectures = $prefectures -> prepend('都道府県', '');
-        $animal_types = Animal_type::orderBy('code','asc')->pluck('type','code');
+        $animals = Animal_id::orderBy('id','asc')->pluck('animal','id');
         
 
         return view('hospitals.create',[
             'hospital'=>$hospital,
             'prefectures' => $prefectures,
-            'animal_types'=>$animal_types
+            'animals'=>$animals
             ]);
     }
     
@@ -54,11 +70,11 @@ class hospitalsController extends Controller
         $hospital=new Hospital;
         
         $hospital->name=$request->name;
-        $hospital->prefecture_code=$request->prefecture_code;
+        $hospital->prefecture_id=$request->prefecture_id;
         $hospital->address=$request->address;
         $hospital->tel=$request->tel;
         $hospital->opening_hour=$request->opening_hour;
-        $hospital->animal_types=$request->animal_types;
+        $hospital->animal_id=$request->animal_id;
         $hospital->image_name=$request->image_name;
         
         $hospital->save();
@@ -67,9 +83,11 @@ class hospitalsController extends Controller
     
     public function show($id){
         $hospital=Hospital::find($id);
-       
+        $reviews = Review::where('hospital_id',$id)->get();
+
         return view('hospitals.show',[
-            'hospital'=>$hospital
+            'hospital'=>$hospital,
+            'reviews' =>$reviews
             
             ]);
     }
@@ -91,11 +109,11 @@ class hospitalsController extends Controller
         $hospital=Hospital::find($id);
         
         $hospital->name=$request->name;
-        $hospital->prefecture_code=$request->prefecture_code;
+        $hospital->prefecture_id=$request->prefecture_id;
         $hospital->address=$request->address;
         $hospital->tel=$request->tel;
         $hospital->opening_hour=$request->opening_hour;
-        $hospital->animal_types=$request->animal_types;
+        $hospital->animal_id=$request->animal_id;
         $hospital->image_name=$request->image_name;
         
         $hospital->save();

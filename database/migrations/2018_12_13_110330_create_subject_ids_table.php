@@ -4,20 +4,19 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHospitalSubjectsTable extends Migration
+class CreateSubjectIdsTable extends Migration
 {
 
     public function up()
     {
-        Schema::create('hospital_subjects', function (Blueprint $table) {
+        Schema::create('subject_ids', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('code')->default(0);
-            $table->text('subject');
+            $table->text('subject'); //診察科目
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('hospital_subjects');
+        Schema::dropIfExists('subject_ids');
     }
 }

@@ -15,8 +15,8 @@ class CreateReviewsTable extends Migration
             $table->integer('hospital_id');
             $table->string('title');
             $table->text('content');
-            $table->integer('animal_type_code');
-            $table->integer('hoapital_subject_code');
+            $table->integer('animal_id');
+            $table->integer('subject_id');
             $table->integer('value');
             $table->timestamps();
         });

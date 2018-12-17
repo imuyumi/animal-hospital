@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAnimalTypesTable extends Migration
+class CreatePrefectureIdsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateAnimalTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('animal_types', function (Blueprint $table) {
+        Schema::create('prefecture_ids', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('code')->default(0); // 種類の番号(value)
-            $table->text('type'); // 動物の種類(type)
+            $table->text('prefecture'); // 都道府県名
         });
     }
 
@@ -27,6 +26,6 @@ class CreateAnimalTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('animal_types');
+        Schema::dropIfExists('prefecture_ids');
     }
 }

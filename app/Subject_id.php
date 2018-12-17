@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Prefecture_code extends Model
+class Subject_id extends Model
 {
     //
 }

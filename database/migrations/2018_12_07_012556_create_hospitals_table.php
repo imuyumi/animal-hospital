@@ -12,11 +12,11 @@ class CreateHospitalsTable extends Migration
         Schema::create('hospitals', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('prefecture_code');
+            $table->integer('prefecture_id');
             $table->string('address');
             $table->integer('tel');
             $table->string('opening_hour');
-            $table->integer('animal_types');
+            $table->integer('animal_id');
             $table->string('image_name')->nullable();
             $table->timestamps();
         });

@@ -1,17 +1,17 @@
 @extends('layouts.app')
 @section('content')
-    <h1>animal-hospital-searching</h1>
+    <h1>動物病院口コミ・検索サイト</h1>
     <div>
         {!! Form::open(['method' => 'GET'],['route'=>'hospitals.index']) !!}
         <div class="form-group">
-            {!! Form::label('animal_types','ペットの種類') !!}
-                @foreach($animal_types as $code=>$type)
-                    <p>{{ $type }}{!!Form::checkbox('animal_types', $code, null) !!}</p>
+            {!! Form::label('animal_id','ペットの種類') !!}
+                @foreach($animals as $id=>$animal)
+                    <p>{{ $animal }}{!!Form::checkbox('animal_id', $id, null) !!}</p>
                 @endforeach
         </div>
         <div class="form-group">
-            {!! Form::label('prefecture_code','都道府県') !!}
-            {!!Form::select('prefecture_code', $prefectures, null, ['class' => 'form-control', 'id' => 'prefecture_code']) !!}
+            {!! Form::label('prefecture_id','都道府県') !!}
+            {!!Form::select('prefecture_id', $prefectures, null, ['class' => 'form-control', 'id' => 'prefecture_id']) !!}
         </div>
         {!! Form::submit('病院を検索',['class'=>'btn btn-success']) !!}
         {!! Form::close() !!}

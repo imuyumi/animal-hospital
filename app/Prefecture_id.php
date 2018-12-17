@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Animal_type extends Model
+class Prefecture_id extends Model
 {
     //
 }

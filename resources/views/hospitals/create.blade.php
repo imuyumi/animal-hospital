@@ -7,8 +7,8 @@
             {!! Form::text('name',old('name'),['class'=>'form-control']) !!}
         </div>
         <div class="form-group">
-            {!! Form::label('prefecture_code','都道府県') !!}
-            {!!Form::select('prefecture_code', $prefectures, null, ['class' => 'form-control', 'id' => 'prefecture_code']) !!}
+            {!! Form::label('prefecture_id','都道府県') !!}
+            {!!Form::select('prefecture_id', $prefectures, null, ['class' => 'form-control', 'id' => 'prefecture_id']) !!}
         </div>
         <div class="form-group">
             {!! Form::label('address','住所') !!}
@@ -23,9 +23,9 @@
             {!! Form::text('opening_hour',old('opening_hour'),['class'=>'form-control']) !!}
         </div>
         <div class="form-group">
-            {!! Form::label('animal_types','診察可能なペットの種類') !!}
-            @foreach($animal_types as $code=>$type)
-                <div><p>{{ $type }}{!!Form::checkbox('animal_types', $code, null) !!}</p></div>
+            {!! Form::label('animal_id','診察可能なペットの種類') !!}
+            @foreach($animals as $id=>$animal)
+                <div><p>{{ $animal }}{!!Form::checkbox('animal_id', $id, null) !!}</p></div>
             @endforeach
         </div>
          <div class="form-group">

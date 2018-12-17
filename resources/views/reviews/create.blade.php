@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div>
-        {!! Form::open(['route'=>'reviews.store']) !!}
+        {!! Form::open(['route'=>'reviews.store', $review->hospital_id]) !!}
         <div class="form-group">
             {!! Form::label('title','口コミのタイトル') !!}
             {!! Form::text('title',old('title'),['class'=>'form-control']) !!}
@@ -11,14 +11,14 @@
             {!! Form::textarea('content',old('content'),['class'=>'form-control']) !!}
         </div>
         <div class="form-group">
-            {!! Form::label('animal_types','ペットの種類') !!}
-            @foreach($animal_types as $code=>$type)
-                <div><p>{{ $type }}{!!Form::checkbox('animal_types', $code, null) !!}</p></div>
+            {!! Form::label('animal_id','ペットの種類') !!}
+            @foreach($animals as $id=>$animal)
+                <div><p>{{ $animal }}{!!Form::radio('animal_id', $id, null) !!}</p></div>
             @endforeach
         </div>
         <div class="form-group">
-            {!! Form::label('hospital_subject','診察領域') !!}
-            {!!Form::select('hospital_subject', $hospital_subjects, null,['class'=>'form-control']) !!}</p></div>
+            {!! Form::label('subject_id','診察領域') !!}
+            {!!Form::select('subject_id', $subjects, null,['class'=>'form-control']) !!}</p></div>
          </div>
          <div class="form-group">
             {!! Form::label('value','5段階評価') !!}
@@ -29,6 +29,7 @@
             <p>5{!!Form::radio('value', '5',['class'=>'form-control']) !!}</p>
             
          </div>
+         {{Form::hidden('hospital_id', $review->hospital_id)}}
 
         {!! Form::submit('口コミを投稿',['class'=>'btn btn-success']) !!}
         {!! Form::close() !!}

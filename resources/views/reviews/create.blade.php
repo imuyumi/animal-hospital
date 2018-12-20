@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div>
+    <div class="col-md-6 col-md-offset-3">
         {!! Form::open(['route'=>'reviews.store', $review->hospital_id]) !!}
         <div class="form-group">
             {!! Form::label('title','口コミのタイトル') !!}
@@ -18,7 +18,7 @@
         </div>
         <div class="form-group">
             {!! Form::label('subject_id','診察領域') !!}
-            {!!Form::select('subject_id', $subjects, null,['class'=>'form-control']) !!}</p></div>
+            {!!Form::select('subject_id', $subjects, null,['class'=>'form-control']) !!}</p>
          </div>
          <div class="form-group">
             {!! Form::label('value','5段階評価') !!}

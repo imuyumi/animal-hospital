@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div>
+    <div class="col-md-6 col-md-offset-3">
         {!! Form::open(['route'=>'signup.post']) !!}
         <div class="form-group">
             {!! Form::label('name','お名前') !!}

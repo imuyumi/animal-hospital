@@ -8,10 +8,11 @@ use App\Prefecture_id;
 use App\Animal_id;
 use App\User;
 use App\Review;
+use App\Hospital_animal;
 
 class hospitalsController extends Controller
 {
-    public function search()
+    public function top()
     {
         $prefectures =Prefecture_id::orderBy('id','asc')->pluck('prefecture', 'id');
         $prefectures = $prefectures -> prepend('都道府県', '');
@@ -23,23 +24,8 @@ class hospitalsController extends Controller
             ]);
     }
     
-    public function index()
+   public function index()
     {
-        // //検索結果の表示
-        // $search_animal_id = Request::get('animal_id');
-        // $search_prefecture_id = Request::get('prefecture_id');
-        
-        // if(!empty($search_animal_id) && !empty( $search_prefecture_id)) 
-        // {
-        // $hospitals=DB::table('hospitals')->where('prefecture_id','$search_prefecture_id');
-        // $hospitals=DB::table('hospitals')->where('animal_id','$search_animal_id');
-        // }
-        
-        // return view('hospitals.index', [
-        //     'hospitals'=>$hospitals
-        //     ]);
-        
-        
         $hospitals= Hospital::all();
         return view('hospitals.index',[
         'hospitals'=>$hospitals
@@ -51,7 +37,6 @@ class hospitalsController extends Controller
         $prefectures =Prefecture_id::orderBy('id','asc')->pluck('prefecture', 'id');
         $prefectures = $prefectures -> prepend('都道府県', '');
         $animals = Animal_id::orderBy('id','asc')->pluck('animal','id');
-        
 
         return view('hospitals.create',[
             'hospital'=>$hospital,
@@ -74,17 +59,22 @@ class hospitalsController extends Controller
         $hospital->address=$request->address;
         $hospital->tel=$request->tel;
         $hospital->opening_hour=$request->opening_hour;
-        $hospital->animal_id=$request->animal_id;
         $hospital->image_name=$request->image_name;
-        
         $hospital->save();
-        return redirect('hospitals.index');
+        
+        foreach($request->animal_id as $animal_id){
+           $hospital->add_animal_id($animal_id);
+         }
+       
+        return redirect()->route('hospitals.show',[
+            'id'=>$hospital
+            ]);
 }
     
     public function show($id){
+         
         $hospital=Hospital::find($id);
         $reviews = Review::where('hospital_id',$id)->get();
-
         return view('hospitals.show',[
             'hospital'=>$hospital,
             'reviews' =>$reviews
@@ -94,8 +84,14 @@ class hospitalsController extends Controller
     
     public function edit($id){
         $hospital=Hospital::find($id);
+        $prefectures =Prefecture_id::orderBy('id','asc')->pluck('prefecture', 'id');
+        $prefectures = $prefectures -> prepend('都道府県', '');
+        $animals = Animal_id::orderBy('id','asc')->pluck('animal','id');
+
         return view('hospitals.edit',[
-            'hospital'=>$hospital
+            'hospital'=>$hospital,
+            'prefectures' => $prefectures,
+            'animals'=>$animals
             ]);
     }
     
@@ -113,16 +109,44 @@ class hospitalsController extends Controller
         $hospital->address=$request->address;
         $hospital->tel=$request->tel;
         $hospital->opening_hour=$request->opening_hour;
-        $hospital->animal_id=$request->animal_id;
         $hospital->image_name=$request->image_name;
         
         $hospital->save();
-        return redirect('hospitals.show');
+        
+        //いったん、診療対象の動物を全削除する
+        $hospital->remove_animal_id();
+        
+        //診療対象の動物を再登録する
+        foreach($request->animal_id as $animal_id){
+           $hospital->add_animal_id($animal_id);
+         }
+         
+         return redirect()->route('hospitals.show',[
+            'id'=>$hospital
+            ]);
     }
     
     public function destroy($id){
         $hospital=Hospital::find($id);
         $hospital->delete();
-        return redirect('hospitals.index');
+         return view('hospitals.index',[
+        'hospitals'=>$hospitals
+        ]);
     }
+    
+    //検索結果の表示
+    public function search(Request $request)
+    {
+         $prefecture_id=$request->prefecture_id;
+         $animal_id=$request->animal_id;
+         
+         $hospital = new Hospital;
+         //一度hospitalのインスタンスを作成
+         $results = $hospital->get_search_result($animal_id,$prefecture_id);
+          //viewに$resultをわたす
+         return view('search.result',[
+        'results'=>$results
+        ]);
+
+   }
 }

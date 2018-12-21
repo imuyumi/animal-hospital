@@ -11,7 +11,7 @@ class CreateReviewsTable extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
+            $table->integer('user_id')->unsigned()->index();
             $table->integer('hospital_id');
             $table->string('title');
             $table->text('content');
@@ -19,6 +19,9 @@ class CreateReviewsTable extends Migration
             $table->integer('subject_id');
             $table->integer('value');
             $table->timestamps();
+            
+            //外部キー制約userテーブルに紐づける。
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div>
+    <div class="col-md-6 col-md-offset-3">
         {!! Form::model($hospital, ['route' => ['hospitals.update', $hospital->id], 'method' => 'put']) !!}
         <div class="form-group">
             {!! Form::label('name','病院名') !!}
@@ -21,6 +21,10 @@
         <div class="form-group">
             {!! Form::label('opening_hour','診察時間') !!}
             {!! Form::text('opening_hour',old('opening_hour'),['class'=>'form-control']) !!}
+        </div>
+        <div class="form-group">
+            {!! Form::label('closing_hour','休診日') !!}
+            {!! Form::text('closing_hour',old('closing_hour'),['class'=>'form-control']) !!}
         </div>
         <div class="form-group">
             {!! Form::label('animal_id','診察可能なペットの種類') !!}

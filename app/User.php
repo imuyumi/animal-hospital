@@ -9,21 +9,19 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+
     protected $fillable = [
         'name', 'email', 'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
+
     protected $hidden = [
         'password', 'remember_token',
     ];
+    //userが書いたreviewを取得
+     public function get_reviews()
+     {
+         //return $this->hasMany(Review::class);
+         return $this->hasMany(Review::class)->join('hospitals','hospitals.id','reviews.hospital_id');
+     }
 }

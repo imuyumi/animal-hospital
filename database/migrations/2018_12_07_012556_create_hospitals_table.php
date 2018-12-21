@@ -16,6 +16,7 @@ class CreateHospitalsTable extends Migration
             $table->string('address');
             $table->integer('tel');
             $table->string('opening_hour');
+            $table->string('closing_hour');
             $table->integer('animal_id');
             $table->string('image_name')->nullable();
             $table->timestamps();

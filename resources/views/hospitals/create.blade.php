@@ -23,6 +23,10 @@
             {!! Form::text('opening_hour',old('opening_hour'),['class'=>'form-control']) !!}
         </div>
         <div class="form-group">
+            {!! Form::label('closing_hour','休診日') !!}
+            {!! Form::text('closing_hour',old('closing_hour'),['class'=>'form-control']) !!}
+        </div>
+        <div class="form-group">
             {!! Form::label('animal_id','診察可能なペットの種類') !!}
             @foreach($animals as $id=>$animal)
                 <div><p>{{ $animal }}{!!Form::checkbox('animal_id[]', $id, null) !!}</p></div>

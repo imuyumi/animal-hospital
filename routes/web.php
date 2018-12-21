@@ -16,7 +16,7 @@ Route::get('logout','Auth\LoginController@logout')->name('logout.get');//ログ�
 
 Route::group(['middleware' => ['auth']], function () {
      Route::resource('users', 'UsersController', ['only' => 'show']);//マイページの表示
-     Route::resource('reviews','ReviewsController');
+     Route::resource('reviews','ReviewsController',['only' => ['create','store','edit','update','destroy']]);
 });
 
 

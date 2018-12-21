@@ -59,6 +59,7 @@ class hospitalsController extends Controller
         $hospital->address=$request->address;
         $hospital->tel=$request->tel;
         $hospital->opening_hour=$request->opening_hour;
+        $hospital->closing_hour=$request->closing_hour;
         $hospital->image_name=$request->image_name;
         $hospital->save();
         
@@ -109,6 +110,7 @@ class hospitalsController extends Controller
         $hospital->address=$request->address;
         $hospital->tel=$request->tel;
         $hospital->opening_hour=$request->opening_hour;
+        $hospital->closing_hour=$request->closing_hour;
         $hospital->image_name=$request->image_name;
         
         $hospital->save();
@@ -143,9 +145,12 @@ class hospitalsController extends Controller
          $hospital = new Hospital;
          //一度hospitalのインスタンスを作成
          $results = $hospital->get_search_result($animal_id,$prefecture_id);
+         $result_count = $results->count();
+         
           //viewに$resultをわたす
          return view('search.result',[
-        'results'=>$results
+        'results'=>$results,
+        'result_count'=>$result_count
         ]);
 
    }

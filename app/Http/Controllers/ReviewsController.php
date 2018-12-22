@@ -12,11 +12,7 @@ use App\Hospital;
 
 class ReviewsController extends Controller
 {
-   
-    //reviewの一覧表示:index
-    //reviewのhospital_idカラムがhospitalIdと一致するものを全表示
-
-    //review作成画面の表示:create
+   //review作成画面の表示:create
     public function create(Request $request)
     {
         $review = new Review;
@@ -45,9 +41,9 @@ class ReviewsController extends Controller
         $review->value=$request->value;
         
         $review->save();
-        $hospitals=Hospital::all();
-        return view('hospitals.index',[
-            'hospitals'=>$hospitals
+        return redirect()->route('hospitals.show',[
+            'id'=>$review->hospital_id
+
             ]);
     }
     
@@ -64,11 +60,46 @@ class ReviewsController extends Controller
     }
     
     
-    
+    public function edit($id)
+    {
+        $review = Review::find($id);
+        $subjects =Subject_id::orderBy('id','asc')->pluck('subject', 'id');
+        $subjects = $subjects -> prepend('診察領域', '');
+        $animals = Animal_id::orderBy('id','asc')->pluck('animal','id');
+        
+        return view('reviews.edit',[
+            'review'=>$review,
+            'subjects'=>$subjects,
+            'animals'=>$animals
+            ]);
+    } 
     
     //reviewのアップデート:update
-    
+        public function update(Request $request,$id)
+    {
+        $review = Review::find($id);
+        $review->user_id= \Auth::id();
+        $review->hospital_id= $request->hospital_id;
+        $review->title=$request->title;
+        $review->content=$request->content;
+        $review->animal_id=$request->animal_id;
+        $review->subject_id=$request->subject_id;
+        $review->value=$request->value;
+        
+        $review->save();
+        return redirect()->route('users.show',[
+            'id'=>\Auth::id()
+            ]);
+    }
     
     //reviewの消去:delete
-    
+    public function destroy($id)
+    {
+       $review = Review::find($id);
+       $review->delete();
+       return redirect()->route('users.show',[
+            'id'=>\Auth::id()
+            ]);
+       
+    }
 }

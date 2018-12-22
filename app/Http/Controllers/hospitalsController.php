@@ -9,6 +9,7 @@ use App\Animal_id;
 use App\User;
 use App\Review;
 use App\Hospital_animal;
+use Intervention\Image\Facades\Image;
 
 class hospitalsController extends Controller
 {
@@ -26,7 +27,8 @@ class hospitalsController extends Controller
     
    public function index()
     {
-        $hospitals= Hospital::all();
+        $hospitals= Hospital::paginate(20);
+
         return view('hospitals.index',[
         'hospitals'=>$hospitals
         ]);
@@ -60,9 +62,22 @@ class hospitalsController extends Controller
         $hospital->tel=$request->tel;
         $hospital->opening_hour=$request->opening_hour;
         $hospital->closing_hour=$request->closing_hour;
-        $hospital->image_name=$request->image_name;
+        
+        if($request->image_name)//画像がアップロードされていれば画像を保存する
+            {
+            //画像のファイル名を取得
+            $image_name = $request->image_name->getClientOriginalName();
+            //ファイルのパスを取得
+            $image_path = Image::make($request->image_name->getRealPath());
+            //画像を保存する.public/imagesに保存される
+            $image_path->heighten(180)->save(public_path().'/images/'.$image_name);
+            $path = 'images/'.$image_name;//画像のファイルパス
+            $hospital->image_name = $image_name;
+            };
+            
         $hospital->save();
         
+        //中間テーブルにanimal_idを登録
         foreach($request->animal_id as $animal_id){
            $hospital->add_animal_id($animal_id);
          }
@@ -75,7 +90,7 @@ class hospitalsController extends Controller
     public function show($id){
          
         $hospital=Hospital::find($id);
-        $reviews = Review::where('hospital_id',$id)->get();
+        $reviews = Review::where('hospital_id',$id)->paginate(10);
         return view('hospitals.show',[
             'hospital'=>$hospital,
             'reviews' =>$reviews
@@ -111,8 +126,19 @@ class hospitalsController extends Controller
         $hospital->tel=$request->tel;
         $hospital->opening_hour=$request->opening_hour;
         $hospital->closing_hour=$request->closing_hour;
-        $hospital->image_name=$request->image_name;
-        
+
+        if($request->image_name)//画像がアップロードされていれば画像を保存する
+            {
+            //画像のファイル名を取得
+            $image_name = $request->image_name->getClientOriginalName();
+            //ファイルのパスを取得
+            $image_path = Image::make($request->image_name->getRealPath());
+            //画像を保存する.public/imagesに保存される
+            $image_path->heighten(180)->save(public_path().'/images/'.$image_name);
+            $path = 'images/'.$image_name;//画像のファイルパス
+            $hospital->image_name = $image_name;
+            };
+   
         $hospital->save();
         
         //いったん、診療対象の動物を全削除する
@@ -147,10 +173,15 @@ class hospitalsController extends Controller
          $results = $hospital->get_search_result($animal_id,$prefecture_id);
          $result_count = $results->count();
          
-          //viewに$resultをわたす
+         //hospitalのidとreviewのhospital_idが一致するものをカウント
+         //$review_count = 
+         
+         //viewに$resultをわたす
          return view('search.result',[
         'results'=>$results,
-        'result_count'=>$result_count
+        'result_count'=>$result_count,
+        //'review_count'=>$review_count
+        
         ]);
 
    }

@@ -1,11 +1,12 @@
 @extends('layouts.app')
 @section('content')
+
 <div class="col-md-8 col-md-offset-2">
     <div class="panel panel-warning">
         <div class="panel-heading">
             <h2 class="panel-title">{{ $hospital->name }}</h2>
         </div>
-        <div class="panel-body">
+        <div class="panel-body hospital-detail">
             <p>住所：{{ $hospital->prefecture['prefecture']}}{{ $hospital->address}}</p>
             <p>電話番号：{{ $hospital->tel}}</p>
             <p>診察時間：{{ $hospital->opening_hour}}</p>
@@ -14,7 +15,13 @@
                 @foreach($hospital->animal_ids as $id)
                     {{ $id->animal . '/'}}
                 @endforeach
-             
+            <div class="hospital-img">
+                @if(isset($hospital->image_name))
+                    <a><img src="{{ secure_asset("images/$hospital->image_name") }}" alt="{{ $hospital->image_name }}"></a>
+                @else
+                    <a><img src="{{ secure_asset("images/default.jpg") }}" alt="no-img"></a>
+                @endif
+            </div>
             <div>
                 @if(Auth::check())
                 {!! link_to_route('reviews.create','口コミを投稿する',['id'=>$hospital->id],['class' => 'col-md-4 btn btn-primary'])!!}
@@ -36,19 +43,15 @@
             @endif
         </div>
     @endif
-     <h1 class="col-md-12">{{ $hospital->name }}の口コミ一覧</h1>
+     <h1>{{ $hospital->name }}の口コミ一覧</h1>
     <div>
-        
-           
         <div>
-            @if($reviews)
+            @if(isset($reviews))
                 @foreach($reviews as $review)
                  <div class="panel panel-info">
                      <div class="panel-heading">
                         <p class="panel-title">{{ $review->title }}</p>
                         <p>診察領域：{{ $review->subject['subject'] }}/ペットの種類：{{ $review->animal['animal'] }}/5段階評価：{{ $review->value }}</p>
-                        <p></p>
-                        <p></p>
                     </div>
                     <div class="panel-body">
                         <p>口コミの内容</p>
@@ -58,9 +61,10 @@
                 </div>
                 @endforeach
             @else
-                
+                <p>口コミはまだありません</p>
             @endif
         </div>
+        {!! $reviews->render() !!}
     </div>
 </div>
 @endsection

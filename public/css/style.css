@@ -1,0 +1,52 @@
+@charset "utf-8";
+
+body {
+    background-color: #FFFFCC;
+}
+/*ナビバー*/
+.navbar {
+    background-color: #FF9900;
+    border:none;
+}
+
+.hospital-img {
+    float:right;
+}
+
+.hospital-detail p {
+    width:400px;
+}
+.top-search {
+	clear:both;
+}
+.top-search input{
+	display: none;
+}
+.top-search label{
+	display: block;
+	float: left;
+	cursor: pointer;
+	width: 120px;
+	margin: 5px;
+	padding: 10px;
+	border-right: 1px solid #d7d7d7;
+	background: #e5e5e5;
+	color: #555e64;
+	font-size: 14px;
+	text-align: center;
+	line-height: 1;
+	transition: .1s;
+}
+.top-search label:first-of-type{
+}
+.top-search label:last-of-type{
+	border-right: 0px;
+}
+.top-search input[type="radio"]:checked + label {
+	background-color: #FF9900;
+	color: #fff;
+}
+.btn {
+    margin-bottom:20px;
+    width:400px;
+}

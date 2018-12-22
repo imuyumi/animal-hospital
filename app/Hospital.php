@@ -39,4 +39,11 @@ class Hospital extends Model
                 ->where('hospitals.prefecture_id' , '=', $prefectureId)
                 ->get();
     }
+    
+    //病院のreviewを取得する。
+    public function get_reviews($hospitalId)
+    {
+        return Hospital::join('reviews','reviews.hospital_id','hospitals.id')
+                ->where('reviews.hospital_id','=',$hospitalId);
+    }
 }

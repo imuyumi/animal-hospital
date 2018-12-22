@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="col-md-6 col-md-offset-3">
-        {!! Form::open(['route'=>'reviews.store', $review->hospital_id]) !!}
+        {!! Form::model($review, ['route'=>['reviews.update', $review->id],'method' => 'put'] ) !!}
         <div class="form-group">
             {!! Form::label('title','口コミのタイトル') !!}
             {!! Form::text('title',old('title'),['class'=>'form-control']) !!}
@@ -31,7 +31,7 @@
          </div>
          {{Form::hidden('hospital_id', $review->hospital_id)}}
 
-        {!! Form::submit('口コミを投稿',['class'=>'btn btn-success']) !!}
+        {!! Form::submit('口コミを更新',['class'=>'btn btn-success']) !!}
         {!! Form::close() !!}
     </div>
 @endsection

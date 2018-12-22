@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="col-md-6 col-md-offset-3">
-        {!! Form::model($hospital, ['route' => ['hospitals.update', $hospital->id], 'method' => 'put']) !!}
+        {!! Form::model($hospital, ['route' => ['hospitals.update', 'files'=>true, $hospital->id], 'method' => 'put']) !!}
         <div class="form-group">
             {!! Form::label('name','病院名') !!}
             {!! Form::text('name',old('name'),['class'=>'form-control']) !!}
@@ -32,9 +32,9 @@
                 <div><p>{{ $animal }}{!!Form::checkbox('animal_id[]', $id, null) !!}</p></div>
             @endforeach
         </div>
-         <div class="form-group">
+        <div class="form-group">
             {!! Form::label('image_name','画像') !!}
-            {!! Form::text('image_name',old('image_name'),['class'=>'form-control']) !!}
+            {!! Form::file('image_name',old('image_name'),['class'=>'form-control']) !!}
         </div>
         
         {!! Form::submit('病院を登録',['class'=>'btn btn-success']) !!}

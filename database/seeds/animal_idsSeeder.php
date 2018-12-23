@@ -11,7 +11,7 @@ class animal_idsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('animal_ids')->truncate();
+        //DB::table('animal_ids')->truncate();
         $animals=[
             ['animal' => '犬'],
             ['animal' => '猫'],

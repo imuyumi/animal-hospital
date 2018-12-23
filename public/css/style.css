@@ -2,6 +2,7 @@
 
 body {
     background-color: #FFFFCC;
+	/*text-align: center;*/
 }
 /*ナビバー*/
 .navbar {
@@ -9,15 +10,49 @@ body {
     border:none;
 }
 
-.hospital-img {
-    float:right;
-}
-
-.hospital-detail p {
+.btn {
+    margin-bottom:20px;
     width:400px;
 }
+
+.glyphicon {
+	margin:5px;
+}
+
+.clearfix::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+
+.hospital-img {
+    float:left;
+    width:30%;
+    padding:20px;
+}
+
+
+.hospital-detail {
+    float:left;
+    width:70%;
+}
+
 .top-search {
-	clear:both;
+	/*clear:both;*/
+	float:left;
+	width:300px;
+}
+.search-pref {
+	float:right;
+	width:300px;
+}
+.search {
+	padding:20px;
+	background-color:#fff;
+	margin-bottom:20px;
+	border: 1px solid #d7d7d7;
+	border-radius: 10px;
 }
 .top-search input{
 	display: none;
@@ -29,13 +64,13 @@ body {
 	width: 120px;
 	margin: 5px;
 	padding: 10px;
-	border-right: 1px solid #d7d7d7;
 	background: #e5e5e5;
 	color: #555e64;
 	font-size: 14px;
 	text-align: center;
 	line-height: 1;
 	transition: .1s;
+	border-radius: 5px;
 }
 .top-search label:first-of-type{
 }
@@ -45,8 +80,4 @@ body {
 .top-search input[type="radio"]:checked + label {
 	background-color: #FF9900;
 	color: #fff;
-}
-.btn {
-    margin-bottom:20px;
-    width:400px;
 }

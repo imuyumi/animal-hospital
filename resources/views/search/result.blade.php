@@ -12,7 +12,7 @@
             <div class="panel-body">
                 <p>住所：{{ $result->prefecture['prefecture']}}{{ $result->address}}</p>
                 <p>電話番号：{{ $result->tel}}</p>
-                <p>口コミが{{ $result->get_reviews($result->hospital_id)->count()}}件あります</p>
+                <p>口コミ<span class="badge">{{ $result->get_reviews($result->hospital_id)->count() }}</span></p>
             </div>
         </div>
         @endforeach

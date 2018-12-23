@@ -22,7 +22,7 @@ class User extends Authenticatable
      public function get_reviews()
      {
          //return $this->hasMany(Review::class);
-         //return $this->hasMany(Review::class)->join('hospitals','hospitals.id','reviews.hospital_id');
-         return $this->hasMany(Review::class);
+         return $this->hasMany(Review::class)->select('reviews.*', 'hospitals.name')->join('hospitals','hospitals.id','reviews.hospital_id');
+        // return $this->hasMany(Review::class);
      }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="col-md-6 col-md-offset-3">
-        {!! Form::model($hospital, ['route' => ['hospitals.update', 'files'=>true, $hospital->id], 'method' => 'put']) !!}
+        {!! Form::model($hospital, ['route' => ['hospitals.update' ,'file' => true,  $hospital->id], 'method' => 'put']) !!}
         <div class="form-group">
             {!! Form::label('name','病院名') !!}
             {!! Form::text('name',old('name'),['class'=>'form-control']) !!}

@@ -104,6 +104,7 @@ class hospitalsController extends Controller
         $prefectures = $prefectures -> prepend('都道府県', '');
         $animals = Animal_id::orderBy('id','asc')->pluck('animal','id');
 
+
         return view('hospitals.edit',[
             'hospital'=>$hospital,
             'prefectures' => $prefectures,
@@ -113,8 +114,11 @@ class hospitalsController extends Controller
     
      public function update(Request $request,$id){
         $this->validate($request,[
-            //'title'=>'required|max:191',
-            //'content'=>'required|max:191'
+            'name'=>'required|max:191',
+            'address'=>'required|max:191',
+            'tel'=>'required|max:191',
+            'opening_hour'=>'required|max:191',
+            'closing_hour'=>'required|max:191',
             
             ]);
         
@@ -141,10 +145,7 @@ class hospitalsController extends Controller
    
         $hospital->save();
         
-        //いったん、診療対象の動物を全削除する
         $hospital->remove_animal_id();
-        
-        //診療対象の動物を再登録する
         foreach($request->animal_id as $animal_id){
            $hospital->add_animal_id($animal_id);
          }
@@ -157,9 +158,10 @@ class hospitalsController extends Controller
     public function destroy($id){
         $hospital=Hospital::find($id);
         $hospital->delete();
+        $hospitals= Hospital::paginate(20);
          return view('hospitals.index',[
-        'hospitals'=>$hospitals
-        ]);
+             'hospitals'=>$hospitals
+             ]);
     }
     
     //検索結果の表示

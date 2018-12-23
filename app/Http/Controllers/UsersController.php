@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Hospital;
 
 class UsersController extends Controller
 {
@@ -11,6 +12,7 @@ class UsersController extends Controller
     {
         $user= User::find($id);
         $reviews = $user->get_reviews;
+
         return view ('users.show',[
             'user'=>$user,
             'reviews'=>$reviews

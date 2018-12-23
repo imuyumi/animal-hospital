@@ -31,6 +31,14 @@ class ReviewsController extends Controller
     //送られてきたreviewの登録処理:store
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'title'=>'required|max:191',
+            'content'=>'required|max:191',
+            'hospital_id'=>'required|max:191',
+            'animal_id'=>'required|max:191',
+            'value'=>'required|max:191',
+            ]);
+            
         $review = new Review;
         $review->user_id= \Auth::id();
         $review->hospital_id= $request->hospital_id;
